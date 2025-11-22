@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <math.h>
+
+float f(float x) 
+{
+    return x*x*x - 2*x*x + 5;
+}
+
+int main() 
+{
+    float a, b, r, fa, fb, fr, error, epsilon;
+    int N, i;
+    printf("Enter initial guesses a and b: ");
+    scanf("%f %f", &a, &b);
+    printf("Enter tolerance: ");
+    scanf("%f", &epsilon);
+    printf("Enter max iterations: ");
+    scanf("%d", &N);
+
+    fa = f(a);
+    fb = f(b);
+
+    if (fa * fb > 0) 
+{
+        printf("Invalid interval: f(a) * f(b) must be < 0\n");
+        return 0;
+    }
+
+    for (i = 1; i <= N; i++)
+ {
+        r = (a + b) / 2 ;
+        fr = f(r);
+
+        printf("Iteration %d: Approx root = %.6f\n", i, r);
+
+        if (fabs(f(r)) < epsilon || fabs(b - a) < epsilon) 
+{
+            printf("\nFinal root = %.6f found in %d iterations.\n", r, i);
+            return 0;
+        }
+
+        if (fa * fr < 0)
+ {
+            b = r;
+            fb = fr;
+        } 
+	else 
+{
+            a = r;
+            fa = fr;
+        }
+    }
+
+    printf("\nDid not converge within %d iterations.\n", N);
+    return 0;
+}
+
